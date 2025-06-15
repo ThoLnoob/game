@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Click the Box!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+
+    #game-area {
+      width: 400px;
+      height: 400px;
+      margin: 20px auto;
+      border: 2px solid #000;
+      position: relative;
+      background-color: white;
+    }
+
+    .box {
+      width: 50px;
+      height: 50px;
+      background-color: red;
+      position: absolute;
+      cursor: pointer;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #score {
+      font-weight: bold;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Click the Box!</h1>
+  <p>Điểm: <span id="score">0</span></p>
+  <div id="game-area"></div>
+
+  <script>
+    const gameArea = document.getElementById("game-area");
+    const scoreDisplay = document.getElementById("score");
+    let score = 0;
+
+    function randomPosition() {
+      const x = Math.random() * (gameArea.clientWidth - 50);
+      const y = Math.random() * (gameArea.clientHeight - 50);
+      return { x, y };
+    }
+
+    function spawnBox() {
+      const box = document.createElement("div");
+      box.className = "box";
+      const { x, y } = randomPosition();
+      box.style.left = x + "px";
+      box.style.top = y + "px";
+
+      box.onclick = () => {
+        score++;
+        scoreDisplay.textContent = score;
+        box.remove();
+        spawnBox();
+      };
+
+      gameArea.appendChild(box);
+    }
+
+    spawnBox();
+  </script>
+</body>
+</html>
